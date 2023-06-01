@@ -7,7 +7,7 @@ module.exports = {
     // Get all users
     async getUser(req, res) {
         try {
-            const users = await User.find();
+            const users = await User.find().populate('thoughts');
             const userObj = {
                 users,
             };
@@ -76,10 +76,9 @@ module.exports = {
                 return res.status(404).json({ message: 'No such user exists' })
             }
 
-            const thought = await Thought.findOneAndUpdate(
-                { students: req.params.studentId },  // how do i do this with username instead
-                { $pull: { students: req.params.studentId } },
-                { new: true }
+            const thought = await Thought.deleteMany(
+                { _id: {$in: user.thoughts} },  // how do i do this with username instead
+    
             );
 
             if (!thought) {

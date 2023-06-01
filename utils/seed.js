@@ -24,12 +24,17 @@ connection.once('open', async () => {
 
     const username = getRandomName();
     createdUsernames.push(username);
-    const email = username + '@email.com';
+    const email = username.replace(' ', '') + '@email.com';
     
+    const userThought = await Thought.create({
+    thoughtText: getRandomThought(),
+    username,
+    });
 
     users.push({
       username,
       email,
+      thoughts: [userThought._id]
     });
   }
 
@@ -37,10 +42,10 @@ connection.once('open', async () => {
   await User.collection.insertMany(users);
 
   // Add thoughts to the collection and await the results
-  await Thought.collection.insertOne({
-    thoughtText: getRandomThought(),
-    username: createdUsernames[Math.floor(Math.random()*createdUsernames.length)],
-  });
+  // await Thought.collection.insertMany({
+  //   thoughtText: getRandomThought(),
+  //   username: createdUsernames[Math.floor(Math.random()*createdUsernames.length)],
+  // });
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);
