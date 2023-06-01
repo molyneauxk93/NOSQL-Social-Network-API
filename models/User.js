@@ -22,7 +22,7 @@ const userSchema = new Schema(
       ],
     },
     thoughts: [thoughtSchema],
-    friends: [userSchema],
+    friends: [{ref: 'User'}],
   }, 
   {
     toJSON: {
