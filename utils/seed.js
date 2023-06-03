@@ -15,7 +15,7 @@ connection.once('open', async () => {
 
   // Create empty array to hold the users
   const users = [];
-  const createdUsernames = [];
+  
 
   // Loop 20 times -- add users to the users array
   for (let i = 0; i < 20; i++) {
@@ -23,7 +23,6 @@ connection.once('open', async () => {
     // const assignments = getRandomAssignments(20);
 
     const username = getRandomName();
-    createdUsernames.push(username);
     const email = username.replace(' ', '') + '@email.com';
     
     const userThought = await Thought.create({
@@ -41,11 +40,6 @@ connection.once('open', async () => {
   // Add users to the collection and await the results
   await User.collection.insertMany(users);
 
-  // Add thoughts to the collection and await the results
-  // await Thought.collection.insertMany({
-  //   thoughtText: getRandomThought(),
-  //   username: createdUsernames[Math.floor(Math.random()*createdUsernames.length)],
-  // });
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);

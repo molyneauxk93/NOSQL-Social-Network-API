@@ -41,6 +41,12 @@ module.exports = {
         try {
             const thought = await Thought.create(req.body);
             res.json(thought);
+
+            const userThought = await User.findOneAndUpdate(
+                { username: thought.username },
+                { $addToSet: { thoughts: thought._id } },
+                { runValidators: true, new: true }
+            )
         } catch (err) {
             res.status(500).json(err);
         }
